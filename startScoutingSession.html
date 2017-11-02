@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Start Scouting Session</title>
+    <link rel="stylesheet" type="text/css" href="./stylesStartScoutingSession.css"/>
+  </head>
+
+  <body>
+    <script>
+      function signOut() {
+        localStorage.setItem("currentScoutName", "");
+        window.location.href = './enterScoutName.html';
+      }
+      function displayUserEntryAmount() {
+        var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+        var url = "http://localhost:3000/user/getUser";
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        var jsonReq = {};
+        jsonReq["username"] = localStorage.getItem("currentScoutName");
+        xhr.send(JSON.stringify(jsonReq));
+        xhr.onreadystatechange = proccessRequest;
+        function proccessRequest(e) {
+          if(xhr.status == 200) {
+            var jsonResponse = JSON.parse(xhr.responseText);
+            var entryNumber = jsonResponse["submitted"];
+            var alertString = localStorage.getItem("currentScoutName") + " has submitted " + entryNumber + " scouting entries over the course of the competition.";
+            alert(alertString);
+
+          }
+          else if(xhr.status == 406) {
+            alert("Please reconnect to server");
+          }
+        }
+      }
+
+    </script>
+    <ul id="navbar">
+      <li id="scoutName" onclick="displayUserEntryAmount();"><script>document.write(localStorage.getItem("currentScoutName"));</script></li>
+      <li id="title">Start Scouting Session</li>
+      <li id="signOut" onclick="signOut();">Sign Out</li>
+    </ul>
+
+
+  </body>
+</html>

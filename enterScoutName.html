@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Enter Scout Name</title>
     <link rel="stylesheet" type="text/css" href="./stylesEnterScoutName.css"/>
-    <script type="text/javascript" href="./scriptEnterScoutName.js"></script>
   </head>
   <body>
 
@@ -12,7 +11,7 @@
 
     <script>
     var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-    function simpleRequest() {
+    function checkScoutName() {
       document.getElementById("topHeader").style.color = "#FFFFFF"
       document.getElementById("topHeader").innerHTML = "...";
       var url = "http://localhost:3000/user/signIn";
@@ -20,17 +19,25 @@
       xhr.open("POST", url, true);
       xhr.setRequestHeader("Content-Type", "application/json");
       var jsonReq = {};
-      jsonReq["username"] = document.getElementById("nameField").value;
-      xhr.send(JSON.stringify(jsonReq));
-      xhr.onreadystatechange = proccessRequest;
-      function proccessRequest(e) {
-        if(xhr.status == 200) {
-          document.getElementById("topHeader").style.color = "#FFFFFF"
-          document.getElementById("topHeader").innerHTML = "GOOD";
-        }
-        else if(xhr.status == 406) {
-          document.getElementById("topHeader").innerHTML = "This name is not registered in the database. Please try again.";
-          document.getElementById("topHeader").style.color = "#FFD700"
+      if(document.getElementById("nameField").value == "") {
+        document.getElementById("topHeader").innerHTML = "Please enter your name into the text field."
+        document.getElementById("topHeader").style.color = "#FFD700"
+      }
+      else {
+        jsonReq["username"] = document.getElementById("nameField").value;
+        xhr.send(JSON.stringify(jsonReq));
+        xhr.onreadystatechange = proccessRequest;
+        function proccessRequest(e) {
+          if(xhr.status == 200) {
+            document.getElementById("topHeader").style.color = "#FFFFFF"
+            localStorage.setItem("currentScoutName", document.getElementById("nameField").value);
+            window.location.href = './startScoutingSession.html'
+
+          }
+          else if(xhr.status == 406) {
+            document.getElementById("topHeader").innerHTML = "This name is not registered in the database. Please try again.";
+            document.getElementById("topHeader").style.color = "#FFD700"
+          }
         }
       }
     }
@@ -40,6 +47,6 @@
 
     <p id="topHeader">Welcome! Please type your name to sign into the server...</p>
     <input type="text" name="name" id="nameField">
-    <button type="button" id="submitButton" onclick="simpleRequest()">Submit</button>
+    <button type="button" id="submitButton" onclick="checkScoutName()">Submit</button>
   </body>
 </html>
