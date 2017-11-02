@@ -4,10 +4,42 @@
     <meta charset="UTF-8">
     <title>Enter Scout Name</title>
     <link rel="stylesheet" type="text/css" href="./stylesEnterScoutName.css"/>
+    <script type="text/javascript" href="./scriptEnterScoutName.js"></script>
   </head>
   <body>
-    <h1>Welcome! Please type your name to sign into the server...</h1>
-    <input type="text" name="name">
-    <button type="button">Submit</button>
+
+
+
+    <script>
+    var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+    function simpleRequest() {
+      document.getElementById("topHeader").style.color = "#FFFFFF"
+      document.getElementById("topHeader").innerHTML = "...";
+      var url = "http://localhost:3000/user/signIn";
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      var jsonReq = {};
+      jsonReq["username"] = document.getElementById("nameField").value;
+      xhr.send(JSON.stringify(jsonReq));
+      xhr.onreadystatechange = proccessRequest;
+      function proccessRequest(e) {
+        if(xhr.status == 200) {
+          document.getElementById("topHeader").style.color = "#FFFFFF"
+          document.getElementById("topHeader").innerHTML = "GOOD";
+        }
+        else if(xhr.status == 406) {
+          document.getElementById("topHeader").innerHTML = "This name is not registered in the database. Please try again.";
+          document.getElementById("topHeader").style.color = "#FFD700"
+        }
+      }
+    }
+    </script>
+
+
+
+    <p id="topHeader">Welcome! Please type your name to sign into the server...</p>
+    <input type="text" name="name" id="nameField">
+    <button type="button" id="submitButton" onclick="simpleRequest()">Submit</button>
   </body>
 </html>

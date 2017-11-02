@@ -1,7 +1,7 @@
 body {
-  background-color: #CC9900;
+  background-color: #800000;
 }
-h1 {
+#topHeader {
   font-family: "Palatino Linotype";
   color: #ffffff;
   font-size: 40px;
@@ -21,7 +21,7 @@ input[type=text] {
 }
 button {
   margin-top: 100px;
-  background-color: #B22222;
+  background-color: #CC9900;
   color: #ffffff;
   border: none;
   height: 80px;
