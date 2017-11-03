@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html>
+
+<!--
+This is the first page that the user sees when they open the program. This only
+contains a field to enter the scout's name. After the name is entered, a
+request is made to the connected node.js server (seen in variable 'url')
+-->
+
   <head>
     <meta charset="UTF-8">
     <title>Enter Scout Name</title>
@@ -20,8 +27,8 @@
       xhr.setRequestHeader("Content-Type", "application/json");
       var jsonReq = {};
       if(document.getElementById("nameField").value == "") {
-        document.getElementById("topHeader").innerHTML = "Please enter your name into the text field."
-        document.getElementById("topHeader").style.color = "#FFD700"
+        document.getElementById("topHeader").innerHTML = "Please enter your name into the text field.";
+        document.getElementById("topHeader").style.color = "#FFD700";
       }
       else {
         jsonReq["username"] = document.getElementById("nameField").value;

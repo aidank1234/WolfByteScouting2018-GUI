@@ -22,7 +22,43 @@
 #signOut {
   text-align: right;
 }
+#scoutName:hover {
+  background-color: #CC9900;
+}
+#signOut:hover {
+  background-color: #CC9900;
+}
 
 body {
   background-color: #800000;
+}
+input[type=text] {
+  width: 25%;
+  margin-left: 450px;
+  box-sizing: border-box;
+  text-align: center;
+  height: 80px;
+  font-size: 40px;
+  font-family: "Palatino Linotype";
+  color: #B22222;
+}
+#topHeader {
+  font-family: "Palatino Linotype";
+  color: #ffffff;
+  font-size: 40px;
+  padding-top: 150px;
+  padding-bottom: 100px;
+  text-align: center;
+}
+button {
+  margin-top: 100px;
+  background-color: #CC9900;
+  color: #ffffff;
+  border: none;
+  height: 80px;
+  width: 25%;
+  margin-left: 450px;
+  font-family: "Palatino Linotype";
+  text-align: center;
+  font-size: 40px;
 }
