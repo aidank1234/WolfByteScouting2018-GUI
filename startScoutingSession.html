@@ -50,8 +50,10 @@ crashes, all progress on the current report will be lost.
           document.getElementById("topHeader").innerHTML = "Please ensure that your input is only numbers.";
           document.getElementById("topHeader").style.color = "#FFD700";
         }
+
         else {
-          localStorage.setItem("robotNumber", document.getElementById("topHeader").value);
+          localStorage.setItem("robotNumber", document.getElementById("robotNumberField").value);
+          window.location.href = './auto.html'
         }
       }
 

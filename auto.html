@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!--
+This is the html page for the Autonomous period. These are the values stored
+in localStorage during this period:
+
+movesInAutoValue
+crossesAutoLineValue
+-->
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Start Scouting Session</title>
+    <link rel="stylesheet" type="text/css" href="./stylesAuto.css"/>
+  </head>
+
+  <body>
+    <script>
+    function initialization() {
+      localStorage.setItem("movesInAutoValue", -1);
+      localStorage.setItem("crossesAutoLineValue", -1);
+      localStorage.setItem("placesOnSwitchAutoValue", -1);
+      localStorage.setItem("placesOnScaleAutoValue", -1);
+      localStorage.setItem("placesInExchangeAuto", -1);
+    }
+    function signOut() {
+      localStorage.setItem("currentScoutName", "");
+      window.location.href = './enterScoutName.html';
+    }
+    function displayUserEntryAmount() {
+      var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+      var url = "http://localhost:3000/user/getUser";
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      var jsonReq = {};
+      jsonReq["username"] = localStorage.getItem("currentScoutName");
+      xhr.send(JSON.stringify(jsonReq));
+      xhr.onreadystatechange = proccessRequest;
+      function proccessRequest(e) {
+        if(xhr.status == 200) {
+          var jsonResponse = JSON.parse(xhr.responseText);
+          var entryNumber = jsonResponse["submitted"];
+          var alertString = localStorage.getItem("currentScoutName") + " has submitted " + entryNumber + " scouting entries over the course of the competition.";
+          alert(alertString);
+        }
+      }
+    }
+    function switchOnClick(clickedID) {
+      if(clickedID == "movesInAutoYes") {
+        localStorage.setItem("movesInAutoValue", 1);
+      }
+      else if(clickedID == "movesInAutoNo") {
+        localStorage.setItem("movesInAutoValue", 0);
+      }
+      else if(clickedID == "crossesAutoLineYes") {
+        localStorage.setItem("crossesAutoLineValue", 1);
+      }
+      else if(clickedID == "crossesAutoLineNo") {
+        localStorage.setItem("crossesAutoLineValue", 0);
+      }
+      else if(clickedID == "placesOnSwitchAutoYes") {
+        localStorage.setItem("placesOnSwitchAutoValue", 1);
+      }
+      else if(clickedID == "placesOnSwitchAutoNo") {
+        localStorage.setItem("placesOnSwitchAutoValue", 0);
+      }
+    }
+    window.onload = initialization;
+    </script>
+    <ul id="navbar">
+      <li id="scoutName" onclick="displayUserEntryAmount();"><script>document.write(localStorage.getItem("currentScoutName"));</script></li>
+      <li id="title">Autonomous Period</li>
+      <li id="signOut" onclick="signOut();">Sign Out</li>
+    </ul>
+    <ul id="autoList">
+      <li class="autoListElement">Did the robot move at all during Auto?
+        <INPUT TYPE="radio" id="movesInAutoYes" name="movesInAuto" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="movesInAutoNo" name="movesInAuto" onclick="switchOnClick(this.id);"><strong>No</strong></li>
+
+      <li class="autoListElement">Did the robot cross the AutoLine?
+        <INPUT TYPE="radio" id="crossesAutoLineYes" name="crossesAutoLine" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="crossesAutoLineNo" name="crossesAutoLine" onclick="switchOnClick(this.id);"><strong>No</strong></li>
+
+      <li class="autoListElement">Did the robot place (a) cube(s) on the switch?
+        <INPUT TYPE="radio" id="placesOnSwitchAutoYes" name="placesOnSwitchAuto" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="placesOnSwitchAutoNo" name="placesOnSwitchAuto" onclick="switchOnClick(this.id);"><strong>No</strong>
+        How Many?
+        <input type="text" id="placesOnSwitchAutoField">
+        </li>
+    </ul>
+
+  </body>
+</html>
