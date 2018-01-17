@@ -37,9 +37,19 @@ body {
   color: #CC9900;
   font-size: 24px;
   list-style-type: none;
+  margin: 30px 0;
+}
+ul {
+  text-align: center;
 }
 #placesOnSwitchAutoField {
-  width: 5%
+  width: 5%;
+}
+#placesOnScaleAutoField {
+  width: 5%;
+}
+#placesInExchangeAutoField {
+  width: 5%;
 }
 input[type=text] {
   box-sizing: border-box;

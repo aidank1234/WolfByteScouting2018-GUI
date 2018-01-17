@@ -19,8 +19,11 @@ crossesAutoLineValue
       localStorage.setItem("movesInAutoValue", -1);
       localStorage.setItem("crossesAutoLineValue", -1);
       localStorage.setItem("placesOnSwitchAutoValue", -1);
+      localStorage.setItem("placesOnSwitchAmountValue", "");
       localStorage.setItem("placesOnScaleAutoValue", -1);
-      localStorage.setItem("placesInExchangeAuto", -1);
+      localStorage.setItem("placesOnScaleAmountValue", "");
+      localStorage.setItem("placesInExchangeAutoValue", -1);
+      localStorage.setItem("placesInExchangeAmountValue", "");
     }
     function signOut() {
       localStorage.setItem("currentScoutName", "");
@@ -64,6 +67,29 @@ crossesAutoLineValue
       else if(clickedID == "placesOnSwitchAutoNo") {
         localStorage.setItem("placesOnSwitchAutoValue", 0);
       }
+      else if(clickedID == "placesOnScaleAutoYes") {
+        localStorage.setItem("placesOnScaleAutoValue", 1);
+      }
+      else if(clickedID == "placesOnScaleAutoNo") {
+        localStorage.setItem("placesOnScaleAutoValue", 0);
+      }
+      else if(clickedID == "placesInExchangeAutoYes") {
+        localStorage.setItem("placesInExchangeAutoValue", 1);
+      }
+      else if(clickedID == "placesInExchangeAutoNo"){
+        localStorage.setItem("placesInExchangeAutoValue", 0);
+      }
+    }
+    function updateTextOnType(typedID) {
+      if(typedID == "placesOnSwitchAutoField") {
+        localStorage.setItem("placesOnSwitchAmountValue", document.getElementById("placesOnSwitchAutoField").value);
+      }
+      else if(typedID == "placesOnScaleAutoField") {
+        localStorage.setItem("placesOnScaleAmountValue", document.getElementById("placesOnScaleAutoField").value);
+      }
+      else if(typedID == "placesInExchangeAutoField") {
+        localStorage.setItem("placesInExchangeAmountValue", document.getElementById("placesInExchangeAutoField").value);
+      }
     }
     window.onload = initialization;
     </script>
@@ -85,8 +111,21 @@ crossesAutoLineValue
         <INPUT TYPE="radio" id="placesOnSwitchAutoYes" name="placesOnSwitchAuto" onclick="switchOnClick(this.id);"><strong>Yes</strong>
         <INPUT TYPE="radio" id="placesOnSwitchAutoNo" name="placesOnSwitchAuto" onclick="switchOnClick(this.id);"><strong>No</strong>
         How Many?
-        <input type="text" id="placesOnSwitchAutoField">
+        <input type="text" id="placesOnSwitchAutoField" onchange="updateTextOnType(this.id);">
         </li>
+
+      <li class="autoListElement">Did the robot place (a) cube(s) on the scale?
+        <INPUT TYPE="radio" id="placesOnScaleAutoYes" name="placesOnScaleAuto" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="placesOnScaleAutoNo" name="placesOnScaleAuto" onclick="switchOnClick(this.id);"><strong>No</strong>
+        How Many?
+        <input type="text" id="placesOnScaleAutoField" onchange="updateTextOnType(this.id);">
+      </li>
+
+      <li class="autoListElement">Did the robot place (a) cube(s) in the exchange?
+        <INPUT TYPE="radio" id="placesInExchangeAutoYes" name="placesInExchangeAuto" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="placesInExchangeAutoNo" name="placesInExchangeAuto" onclick="switchOnClick(this.id);"><strong>No</strong>
+        How Many?
+        <input type="text" id="placesInExchangeAutoField" onchange="updateTextOnType(this.id);">
     </ul>
 
   </body>
