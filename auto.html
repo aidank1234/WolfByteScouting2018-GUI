@@ -74,7 +74,8 @@ This is the html page for the Autonomous period.
       if(localStorage.getItem("placesInExchangeAutoValue") == 0) {
         localStorage.setItem("placesInExchangeAmountValue", "");
       }
-      //window.location.href = './teleopDuring.html'
+      window.location.href = './teleopDuring.html'
+      /*
       var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
       var url = "http://localhost:3000/robot/addScoutingReport";
       var xhr = new XMLHttpRequest();
@@ -117,6 +118,7 @@ This is the html page for the Autonomous period.
           document.getElementById("title").innerHTML = "ERROR";
         }
       }
+      */
     }
     function switchOnClick(clickedID) {
       if(clickedID == "movesInAutoYes") {
