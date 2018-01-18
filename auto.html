@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <!--
-This is the html page for the Autonomous period. These are the values stored
-in localStorage during this period:
-
-movesInAutoValue
-crossesAutoLineValue
+This is the html page for the Autonomous period.
 -->
 <html>
   <head>
@@ -45,6 +41,80 @@ crossesAutoLineValue
           var entryNumber = jsonResponse["submitted"];
           var alertString = localStorage.getItem("currentScoutName") + " has submitted " + entryNumber + " scouting entries over the course of the competition.";
           alert(alertString);
+        }
+      }
+    }
+    function next() {
+      if(localStorage.getItem("placesOnSwitchAutoValue") == 1 && localStorage.getItem("placesOnSwitchAmountValue") == "" || isNaN(localStorage.getItem("placesOnSwitchAmountValue"))) {
+        document.getElementById("title").innerHTML = "Please ensure text fields are filled (w/ numbers)";
+        document.getElementById("title").style.color = "#FFD700";
+        return;
+      }
+      if(localStorage.getItem("placesOnScaleAutoValue") == 1 && localStorage.getItem("placesOnScaleAmountValue") == "" || isNaN(localStorage.getItem("placesOnScaleAmountValue"))) {
+        document.getElementById("title").innerHTML = "Please ensure text fields are filled (w/ numbers)";
+        document.getElementById("title").style.color = "#FFD700";
+        return;
+      }
+      if(localStorage.getItem("placesInExchangeAutoValue") == 1 && localStorage.getItem("placesInExchangeAmountValue") == "" || isNaN(localStorage.getItem("placesInExchangeAmountValue"))) {
+        document.getElementById("title").innerHTML = "Please ensure text fields are filled (w/ numbers)";
+        document.getElementById("title").style.color = "#FFD700";
+        return;
+      }
+      if(localStorage.getItem("movesInAutoValue") == -1 || localStorage.getItem("crossesAutoLineValue") == -1 || localStorage.getItem("placesOnSwitchAutoValue") == -1 || localStorage.getItem("placesOnScaleAutoValue") == -1 || localStorage.getItem("placesInExchangeAutoValue") == -1) {
+        document.getElementById("title").innerHTML = "Please ensure all questions are answered.";
+        document.getElementById("title").style.color = "#FFD700";
+        return;
+      }
+      if(localStorage.getItem("placesOnSwitchAutoValue") == 0) {
+        localStorage.setItem("placesOnSwitchAmountValue", "");
+      }
+      if(localStorage.getItem("placesOnScaleAutoValue") == 0) {
+        localStorage.setItem("placesOnScaleAmountValue", "");
+      }
+      if(localStorage.getItem("placesInExchangeAutoValue") == 0) {
+        localStorage.setItem("placesInExchangeAmountValue", "");
+      }
+      //window.location.href = './teleopDuring.html'
+      var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+      var url = "http://localhost:3000/robot/addScoutingReport";
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      var jsonReq = {};
+      jsonReq["username"] = localStorage.getItem("currentScoutName");
+      jsonReq["robotNumber"] = localStorage.getItem("robotNumber");
+      jsonReq["movesInAutoValue"] = localStorage.getItem("movesInAutoValue");
+      jsonReq["crossesAutoLineValue"] = localStorage.getItem("crossesAutoLineValue");
+      jsonReq["placesOnSwitchAutoValue"] = localStorage.getItem("placesOnSwitchAutoValue");
+      if(localStorage.getItem("placesOnSwitchAutoValue") == 0) {
+        jsonReq["placesOnSwitchAmountValue"] = 0;
+      }
+      else {
+        jsonReq["placesOnSwitchAmountValue"] = parseInt(localStorage.getItem("placesOnSwitchAmountValue"));
+      }
+      jsonReq["placesOnScaleAutoValue"] = localStorage.getItem("placesOnScaleAutoValue");
+      if(localStorage.getItem("placesOnScaleAutoValue") == 0) {
+        jsonReq["placesOnScaleAmountValue"] = 0;
+      }
+      else {
+        jsonReq["placesOnScaleAmountValue"] = parseInt(localStorage.getItem("placesOnScaleAmountValue"));
+      }
+      jsonReq["placesInExchangeAutoValue"] = localStorage.getItem("placesInExchangeAutoValue");
+      if(localStorage.getItem("placesInExchangeAutoValue") == 0) {
+        jsonReq["placesInExchangeAmountValue"] = 0;
+      }
+      else {
+        jsonReq["placesInExchangeAmountValue"] = parseInt(localStorage.getItem("placesInExchangeAmountValue"));
+      }
+      xhr.send(JSON.stringify(jsonReq));
+      xhr.onreadystatechange = proccessRequest;
+      function proccessRequest(e) {
+        if(xhr.status == 200) {
+          var jsonResponse = JSON.parse(xhr.responseText);
+          document.getElementById("title").innerHTML = "SUCCESS";
+        }
+        else {
+          document.getElementById("title").innerHTML = "ERROR";
         }
       }
     }
@@ -127,6 +197,8 @@ crossesAutoLineValue
         How Many?
         <input type="text" id="placesInExchangeAutoField" onchange="updateTextOnType(this.id);">
     </ul>
+
+      <button type="button" id="nextButton" onclick="next();">Next</button>
 
   </body>
 </html>

@@ -58,3 +58,15 @@ input[type=text] {
   font-family: "Palatino Linotype";
   color: #B22222;
 }
+#nextButton {
+  margin-top: 100px;
+  background-color: #CC9900;
+  color: #ffffff;
+  border: none;
+  height: 80px;
+  width: 25%;
+  margin-left: 450px;
+  font-family: "Palatino Linotype";
+  text-align: center;
+  font-size: 40px;
+}

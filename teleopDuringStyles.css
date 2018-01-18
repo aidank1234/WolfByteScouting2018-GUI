@@ -1,0 +1,34 @@
+#navbar {
+  list-style:none;
+  margin:0;
+  padding:0;
+  display: inline-block;
+  font-family: "Palatino Linotype";
+  font-size: 30px;
+  background-color: #800000;
+  color: #FFFFFF;
+  width: 100%
+}
+#navbar li {
+  display: inline-block;
+  width: 32%;
+}
+#scoutName {
+  text-align: left;
+}
+#title {
+  text-align: center;
+}
+#signOut {
+  text-align: right;
+}
+#scoutName:hover {
+  background-color: #CC9900;
+}
+#signOut:hover {
+  background-color: #CC9900;
+}
+
+body {
+  background-color: #800000;
+}
