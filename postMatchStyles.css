@@ -32,7 +32,7 @@
 body {
   background-color: #800000;
 }
-.teleopListElement {
+.postMatchListElement {
   font-family: "Palatino Linotype";
   color: #CC9900;
   font-size: 24px;
@@ -42,7 +42,23 @@ body {
 ul {
   text-align: center;
 }
-#nextButton {
+#commentsHeader {
+  margin-top: 50px;
+  color: #CC9900;
+  font-size: 24px;
+  text-align: center;
+}
+#commentsField {
+  margin-top: 20px;
+  margin-left: 25%;
+  width: 50%;
+  height: 60px;
+  background-color: #FFFFFF;
+  color: #B22222;
+  font-size: 18px;
+  text-align: center;
+}
+#submitButton {
   margin-top: 50px;
   background-color: #CC9900;
   color: #ffffff;

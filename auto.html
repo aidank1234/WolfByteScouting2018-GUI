@@ -5,7 +5,7 @@ This is the html page for the Autonomous period.
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Start Scouting Session</title>
+    <title>Auto</title>
     <link rel="stylesheet" type="text/css" href="./stylesAuto.css"/>
   </head>
 
@@ -75,50 +75,6 @@ This is the html page for the Autonomous period.
         localStorage.setItem("placesInExchangeAmountValue", "");
       }
       window.location.href = './teleopDuring.html'
-      /*
-      var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-      var url = "http://localhost:3000/robot/addScoutingReport";
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", url, true);
-      xhr.setRequestHeader("Content-Type", "application/json");
-      var jsonReq = {};
-      jsonReq["username"] = localStorage.getItem("currentScoutName");
-      jsonReq["robotNumber"] = localStorage.getItem("robotNumber");
-      jsonReq["movesInAutoValue"] = localStorage.getItem("movesInAutoValue");
-      jsonReq["crossesAutoLineValue"] = localStorage.getItem("crossesAutoLineValue");
-      jsonReq["placesOnSwitchAutoValue"] = localStorage.getItem("placesOnSwitchAutoValue");
-      if(localStorage.getItem("placesOnSwitchAutoValue") == 0) {
-        jsonReq["placesOnSwitchAmountValue"] = 0;
-      }
-      else {
-        jsonReq["placesOnSwitchAmountValue"] = parseInt(localStorage.getItem("placesOnSwitchAmountValue"));
-      }
-      jsonReq["placesOnScaleAutoValue"] = localStorage.getItem("placesOnScaleAutoValue");
-      if(localStorage.getItem("placesOnScaleAutoValue") == 0) {
-        jsonReq["placesOnScaleAmountValue"] = 0;
-      }
-      else {
-        jsonReq["placesOnScaleAmountValue"] = parseInt(localStorage.getItem("placesOnScaleAmountValue"));
-      }
-      jsonReq["placesInExchangeAutoValue"] = localStorage.getItem("placesInExchangeAutoValue");
-      if(localStorage.getItem("placesInExchangeAutoValue") == 0) {
-        jsonReq["placesInExchangeAmountValue"] = 0;
-      }
-      else {
-        jsonReq["placesInExchangeAmountValue"] = parseInt(localStorage.getItem("placesInExchangeAmountValue"));
-      }
-      xhr.send(JSON.stringify(jsonReq));
-      xhr.onreadystatechange = proccessRequest;
-      function proccessRequest(e) {
-        if(xhr.status == 200) {
-          var jsonResponse = JSON.parse(xhr.responseText);
-          document.getElementById("title").innerHTML = "SUCCESS";
-        }
-        else {
-          document.getElementById("title").innerHTML = "ERROR";
-        }
-      }
-      */
     }
     function switchOnClick(clickedID) {
       if(clickedID == "movesInAutoYes") {

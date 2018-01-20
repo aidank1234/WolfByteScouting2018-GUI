@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!--
+This is the html page for Teleop during the match.
+-->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Post Match</title>
+  <link rel="stylesheet" type="text/css" href="./postMatchStyles.css"/>
+</head>
+  <body>
+    <script>
+    function initialization() {
+      localStorage.setItem("feedsFromPortalValue", -1);
+      localStorage.setItem("feedsFromGroundValue", -1);
+      localStorage.setItem("feedsFromExchangeValue", -1);
+      localStorage.setItem("commentsValue", "");
+    }
+    function signOut() {
+      localStorage.setItem("currentScoutName", "");
+      window.location.href = './enterScoutName.html';
+    }
+    function displayUserEntryAmount() {
+      var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+      var url = "http://localhost:3000/user/getUser";
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      var jsonReq = {};
+      jsonReq["username"] = localStorage.getItem("currentScoutName");
+      xhr.send(JSON.stringify(jsonReq));
+      xhr.onreadystatechange = proccessRequest;
+      function proccessRequest(e) {
+        if(xhr.status == 200) {
+          var jsonResponse = JSON.parse(xhr.responseText);
+          var entryNumber = jsonResponse["submitted"];
+          var alertString = localStorage.getItem("currentScoutName") + " has submitted " + entryNumber + " scouting entries over the course of the competition.";
+          alert(alertString);
+        }
+      }
+    }
+
+    function switchOnClick(clickedID) {
+      if(clickedID == "feedsFromPortalYes") {
+        localStorage.setItem("feedsFromPortalValue", 1);
+      }
+      else if(clickedID == "feedsFromPortalNo") {
+        localStorage.setItem("feedsFromPortalValue", 0);
+      }
+      else if(clickedID == "feedsFromGroundYes") {
+        localStorage.setItem("feedsFromGroundValue", 1);
+      }
+      else if(clickedID == "feedsFromGroundNo") {
+        localStorage.setItem("feedsFromGroundValue", 0);
+      }
+      else if(clickedID == "feedsFromExchangeYes") {
+        localStorage.setItem("feedsFromExchangeValue", 1);
+      }
+      else if(clickedID == "feedsFromExchangeNo") {
+        localStorage.setItem("feedsFromExchangeValue", 0);
+      }
+    }
+
+    function updateTextOnType(typedID) {
+      if(typedID == "commentsField") {
+        localStorage.setItem("commentsValue", document.getElementById("commentsField").value);
+      }
+    }
+
+    function submit() {
+      if(localStorage.getItem("feedsFromPortalValue") == -1 || localStorage.getItem("feedsFromGroundValue") == -1 || localStorage.getItem("feedsFromExchangeValue") == -1 || localStorage.getItem("commentsValue").length < 10) {
+        document.getElementById("title").innerHTML = "Please ensure all questions are answered and the comments field contains at least ten characters.";
+        document.getElementById("title").style.color = "#FFD700";
+        return;
+      }
+
+      var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+      var url = "http://localhost:3000/robot/addScoutingReport";
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      var jsonReq = {};
+      jsonReq["username"] = localStorage.getItem("currentScoutName");
+      jsonReq["robotNumber"] = localStorage.getItem("robotNumber");
+      jsonReq["movesInAutoValue"] = localStorage.getItem("movesInAutoValue");
+      jsonReq["crossesAutoLineValue"] = localStorage.getItem("crossesAutoLineValue");
+      jsonReq["placesOnSwitchAutoValue"] = localStorage.getItem("placesOnSwitchAutoValue");
+      if(localStorage.getItem("placesOnSwitchAutoValue") == 0) {
+        jsonReq["placesOnSwitchAmountValue"] = 0;
+      }
+      else {
+        jsonReq["placesOnSwitchAmountValue"] = parseInt(localStorage.getItem("placesOnSwitchAmountValue"));
+      }
+      jsonReq["placesOnScaleAutoValue"] = localStorage.getItem("placesOnScaleAutoValue");
+      if(localStorage.getItem("placesOnScaleAutoValue") == 0) {
+        jsonReq["placesOnScaleAmountValue"] = 0;
+      }
+      else {
+        jsonReq["placesOnScaleAmountValue"] = parseInt(localStorage.getItem("placesOnScaleAmountValue"));
+      }
+      jsonReq["placesInExchangeAutoValue"] = localStorage.getItem("placesInExchangeAutoValue");
+      if(localStorage.getItem("placesInExchangeAutoValue") == 0) {
+        jsonReq["placesInExchangeAmountValue"] = 0;
+      }
+      else {
+        jsonReq["placesInExchangeAmountValue"] = parseInt(localStorage.getItem("placesInExchangeAmountValue"));
+      }
+      jsonReq["movesInTeleopValue"] = localStorage.getItem("movesInTeleopValue");
+      jsonReq["placesOnSwitchTeleopValue"] = localStorage.getItem("placesOnSwitchTeleopValue");
+      jsonReq["placesOnScaleTeleopValue"] = localStorage.getItem("placesOnScaleTeleopValue");
+      jsonReq["placesInExchangeTeleopValue"] = localStorage.getItem("placesInExchangeTeleopValue");
+      jsonReq["getsOnPlatformValue"] = localStorage.getItem("getsOnPlatformValue");
+      jsonReq["climbedBarValue"] = localStorage.getItem("climbedBarValue");
+      jsonReq["climbedOtherRobotValue"] = localStorage.getItem("climbedOtherRobotValue");
+      jsonReq["supportedOtherRobotWhileClimbedValue"] = localStorage.getItem("supportedOtherRobotWhileClimbedValue");
+      jsonReq["supportedOtherRobotNotClimbedValue"] = localStorage.getItem("supportedOtherRobotNotClimbedValue");
+      jsonReq["feedsFromPortalValue"] = localStorage.getItem("feedsFromPortalValue");
+      jsonReq["feedsFromGroundValue"] = localStorage.getItem("feedsFromGroundValue");
+      jsonReq["feedsFromExchangeValue"] = localStorage.getItem("feedsFromExchangeValue");
+      jsonReq["commentsValue"] = localStorage.getItem("commentsValue");
+      xhr.send(JSON.stringify(jsonReq));
+      xhr.onreadystatechange = proccessRequest;
+      function proccessRequest(e) {
+        if(xhr.status == 200) {
+          window.location.href = './startScoutingSession.html'
+        }
+        else {
+          document.getElementById("title").innerHTML = "ERROR: Please see head scout for help";
+          document.getElementById("title").style.color = "#FFD700";
+        }
+      }
+    }
+    window.onload = initialization;
+    </script>
+    <ul id="navbar">
+      <li id="scoutName" onclick="displayUserEntryAmount();"><script>document.write(localStorage.getItem("currentScoutName"));</script></li>
+      <li id="title">Teleoperated Period</li>
+      <li id="signOut" onclick="signOut();">Sign Out</li>
+    </ul>
+    <ul id="postMatchList">
+      <li class="postMatchListElement">Can the robot receive cubes from the portal?
+        <INPUT TYPE="radio" id="feedsFromPortalYes" name="feedsFromPortal" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="feedsFromPortalNo" name="feedsFromPortal" onclick="switchOnClick(this.id);"><strong>No</strong></li>
+      <li class="postMatchListElement">Can the robot pick up cubes from the ground?
+        <INPUT TYPE="radio" id="feedsFromGroundYes" name="feedsFromGround" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="feedsFromGroundNo" name="feedsFromGround" onclick="switchOnClick(this.id);"><strong>No</strong></li>
+      <li class="postMatchListElement">Can the robot receive cubes from the exchange?
+        <INPUT TYPE="radio" id="feedsFromExchangeYes" name="feedsFromExchange" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="feedsFromExchangeNo" name="feedsFromExchange" onclick="switchOnClick(this.id);"><strong>No</strong></li>
+    </ul>
+    <p id="commentsHeader">Please write some comments about the robot. Comments must be ten characters.</p>
+    <input type="text" name="comments" id="commentsField" onchange="updateTextOnType(this.id);">
+    <button type="button" id="submitButton" onclick="submit();">Submit</button>
+  </body>
+</html>

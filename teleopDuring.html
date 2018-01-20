@@ -5,7 +5,7 @@ This is the html page for Teleop during the match.
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Start Scouting Session</title>
+    <title>Teleop During</title>
     <link rel="stylesheet" type="text/css" href="./teleopDuringStyles.css"/>
   </head>
   <body>
@@ -15,10 +15,11 @@ This is the html page for Teleop during the match.
         localStorage.setItem("placesOnSwitchTeleopValue", 0);
         localStorage.setItem("placesOnScaleTeleopValue", 0);
         localStorage.setItem("placesInExchangeTeleopValue", 0);
+        localStorage.setItem("getsOnPlatformValue", -1);
         localStorage.setItem("climbedBarValue", -1);
         localStorage.setItem("climbedOtherRobotValue", -1);
         localStorage.setItem("supportedOtherRobotWhileClimbedValue", -1);
-        localStorage.setItem("supportedOtherRobotNotClimbed", -1);
+        localStorage.setItem("supportedOtherRobotNotClimbedValue", -1);
       }
       function signOut() {
         localStorage.setItem("currentScoutName", "");
@@ -41,8 +42,87 @@ This is the html page for Teleop during the match.
             var alertString = localStorage.getItem("currentScoutName") + " has submitted " + entryNumber + " scouting entries over the course of the competition.";
             alert(alertString);
           }
-        } 
+        }
       }
+
+      function switchOnClick(clickedID) {
+        if(clickedID == "movesInTeleopYes") {
+          localStorage.setItem("movesInTeleopValue", 1);
+        }
+        else if(clickedID == "movesInTeleopNo") {
+          localStorage.setItem("movesInTeleopValue", 0);
+        }
+        else if(clickedID == "switchTeleopMinus") {
+          if(localStorage.getItem("placesOnSwitchTeleopValue") > 0) {
+            localStorage.setItem("placesOnSwitchTeleopValue", parseInt(localStorage.getItem("placesOnSwitchTeleopValue")) - 1);
+            document.getElementById("switchTeleopCounter").innerHTML = localStorage.getItem("placesOnSwitchTeleopValue");
+          }
+        }
+        else if(clickedID == "switchTeleopPlus") {
+          localStorage.setItem("placesOnSwitchTeleopValue", parseInt(localStorage.getItem("placesOnSwitchTeleopValue")) + 1);
+          document.getElementById("switchTeleopCounter").innerHTML = localStorage.getItem("placesOnSwitchTeleopValue");
+        }
+        else if(clickedID == "scaleTeleopMinus") {
+          if(localStorage.getItem("placesOnScaleTeleopValue") > 0) {
+            localStorage.setItem("placesOnScaleTeleopValue", parseInt(localStorage.getItem("placesOnScaleTeleopValue")) - 1);
+            document.getElementById("scaleTeleopCounter").innerHTML = localStorage.getItem("placesOnScaleTeleopValue");
+          }
+        }
+        else if(clickedID == "scaleTeleopPlus") {
+          localStorage.setItem("placesOnScaleTeleopValue", parseInt(localStorage.getItem("placesOnScaleTeleopValue")) + 1);
+          document.getElementById("scaleTeleopCounter").innerHTML = localStorage.getItem("placesOnScaleTeleopValue");
+        }
+        else if(clickedID == "exchangeTeleopMinus") {
+          if(localStorage.getItem("placesInExchangeTeleopValue") > 0) {
+            localStorage.setItem("placesInExchangeTeleopValue", parseInt(localStorage.getItem("placesInExchangeTeleopValue")) - 1);
+            document.getElementById("exchangeTeleopCounter").innerHTML = localStorage.getItem("placesInExchangeTeleopValue");
+          }
+        }
+        else if(clickedID == "exchangeTeleopPlus") {
+          localStorage.setItem("placesInExchangeTeleopValue", parseInt(localStorage.getItem("placesInExchangeTeleopValue")) + 1);
+          document.getElementById("exchangeTeleopCounter").innerHTML = localStorage.getItem("placesInExchangeTeleopValue");
+        }
+        else if(clickedID == "getsOnPlatformYes") {
+          localStorage.setItem("getsOnPlatformValue", 1);
+        }
+        else if(clickedID == "getsOnPlatformNo") {
+          localStorage.setItem("getsOnPlatformValue", 0);
+        }
+        else if(clickedID == "climbedBarYes") {
+          localStorage.setItem("climbedBarValue", 1);
+        }
+        else if(clickedID == "climbedBarNo") {
+          localStorage.setItem("climbedBarValue", 0);
+        }
+        else if(clickedID == "climbedOtherRobotYes") {
+          localStorage.setItem("climbedOtherRobotValue", 1);
+        }
+        else if(clickedID == "climbedOtherRobotNo") {
+          localStorage.setItem("climbedOtherRobotValue", 0);
+        }
+        else if(clickedID == "supportedOtherRobotWhileClimbedYes") {
+          localStorage.setItem("supportedOtherRobotWhileClimbedValue", 1);
+        }
+        else if(clickedID == "supportedOtherRobotWhileClimbedNo") {
+          localStorage.setItem("supportedOtherRobotWhileClimbedValue", 0);
+        }
+        else if(clickedID == "supportedOtherRobotNotClimbedYes") {
+          localStorage.setItem("supportedOtherRobotNotClimbedValue", 1);
+        }
+        else if(clickedID == "supportedOtherRobotNotClimbedNo") {
+          localStorage.setItem("supportedOtherRobotNotClimbedValue", 0);
+        }
+      }
+
+      function next() {
+        if(localStorage.getItem("movesInTeleopValue") == -1 || localStorage.getItem("getsOnPlatformValue") == -1 || localStorage.getItem("climbedBarValue") == -1 || localStorage.getItem("climbedOtherRobotValue") == -1 || localStorage.getItem("supportedOtherRobotWhileClimbedValue") == -1 || localStorage.getItem("supportedOtherRobotNotClimbedValue") == -1) {
+          document.getElementById("title").innerHTML = "Please ensure all questions are answered.";
+          document.getElementById("title").style.color = "#FFD700";
+          return;
+        }
+        window.location.href = './postMatch.html'
+      }
+
     window.onload = initialization;
     </script>
     <ul id="navbar">
@@ -51,8 +131,41 @@ This is the html page for Teleop during the match.
       <li id="signOut" onclick="signOut();">Sign Out</li>
     </ul>
     <ul id="teleopList">
-      <li class
+      <li class="teleopListElement">Did the robot move at all during Teleop?
+        <INPUT TYPE="radio" id="movesInTeleopYes" name="movesInTeleop" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="movesInTeleopNo" name="movesInTeleop" onclick="switchOnClick(this.id);"><strong>No</strong></li>
+      <li class="teleopListElement">How many cubes did the robot place on the switch during Teleop?
+        <button type="button" id="switchTeleopMinus" onclick="switchOnClick(this.id);">-</button>
+        <p style="display: inline;" id="switchTeleopCounter">0</p>
+        <button type="button" id="switchTeleopPlus" onclick="switchOnClick(this.id);">+</button>
+      </li>
+      <li class="teleopListElement">How many cubes did the robot place on the scale during Teleop?
+        <button type="button" id="scaleTeleopMinus" onclick="switchOnClick(this.id);">-</button>
+        <p style="display: inline;" id="scaleTeleopCounter">0</p>
+        <button type="button" id="scaleTeleopPlus" onclick="switchOnClick(this.id);">+</button>
+      </li>
+      <li class="teleopListElement">How many cubes did the robot place in the exchange during Teleop?
+        <button type="button" id="exchangeTeleopMinus" onclick="switchOnClick(this.id);">-</button>
+        <p style="display: inline;" id="exchangeTeleopCounter">0</p>
+        <button type="button" id="exchangeTeleopPlus" onclick="switchOnClick(this.id);">+</button>
+      </li>
+      <li class="teleopListElement">Did the robot get on top of the platform?
+        <INPUT TYPE="radio" id="getsOnPlatformYes" name="getsOnPlatform" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="getsOnPlatformNo" name="getsOnPlatform" onclick="switchOnClick(this.id);"><strong>No</strong></li>
+      <li class="teleopListElement">Did the robot successfully climb the bar?
+        <INPUT TYPE="radio" id="climbedBarYes" name="climbedBar" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="climbedBarNo" name="climbedBar" onclick="switchOnClick(this.id);"><strong>No</strong></li>
+      <li class="teleopListElement">Did the robot successfully climb on top of another robot?
+        <INPUT TYPE="radio" id="climbedOtherRobotYes" name="climbedOtherRobot" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="climbedOtherRobotNo" name="climbedOtherRobot" onclick="switchOnClick(this.id);"><strong>No</strong></li>
+      <li class="teleopListElement">Did another robot successfully climb the robot while it was hanging?
+        <INPUT TYPE="radio" id="supportedOtherRobotWhileClimbedYes" name="supportedOtherRobotWhileClimbed" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="supportedOtherRobotWhileClimbedNo" name="supportedOtherRobotWhileClimbed" onclick="switchOnClick(this.id);"><strong>No</strong></li>
+      <li class="teleopListElement">Did another robot successfully climb on top of the robot?
+        <INPUT TYPE="radio" id="supportedOtherRobotNotClimbedYes" name="supportedOtherRobotNotClimbed" onclick="switchOnClick(this.id);"><strong>Yes</strong>
+        <INPUT TYPE="radio" id="supportedOtherRobotNotClimbedNo" name="supportedOtherRobotNotClimbed" onclick="switchOnClick(this.id);"><strong>No</strong></li>
     </ul>
+    <button type="button" id="nextButton" onclick="next();">Next</button>
   </body>
 
   </html>
